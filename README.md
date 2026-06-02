@@ -77,10 +77,26 @@ Skrip di atas akan membuka Windows Terminal dengan tab-tab terpisah untuk:
 
 ## 🌐 Cara Menguji Kolaborasi Multi-Device (WiFi Sama)
 
-1. Jalankan aplikasi menggunakan `./start-servers.ps1`.
-2. Buka browser di komputer utama Anda ke `http://localhost:8000`.
-3. Anda akan melihat kotak informasi di dashboard yang menampilkan IP lokal server Anda, misalnya: **`http://192.168.1.15:8000`**.
-4. Ambil HP, tablet, atau laptop kedua Anda, sambungkan ke **WiFi yang sama** dengan komputer utama, lalu buka alamat IP tersebut di browser device kedua.
-5. Masuk sebagai tamu dengan nama yang berbeda (misal: "Tamu A" di PC dan "Tamu B" di HP), lalu buka dokumen yang sama.
-6. Anda sekarang dapat mengetik dan melihat sinkronisasi dokumen serta kursor bergerak secara realtime!
+Dalam ekosistem kolaborasi lokal ini, terdapat perbedaan peran antar perangkat yang terhubung:
+
+### 1. Komputer Utama / Server (Main Client)
+Ini adalah komputer tempat kode aplikasi, database MySQL, dan server WebSocket Reverb dijalankan.
+- Perangkat ini **wajib** melakukan setup lengkap (menjalankan `./setup.ps1` untuk konfigurasi & database seeding, lalu menyalakan server dengan `./start-servers.ps1`).
+- Perangkat inilah yang bertindak sebagai "tuan rumah" penyedia database dan pusat sinkronisasi realtime.
+
+### 2. Perangkat Lain / Kolaborator (Client Biasa)
+Ini adalah HP, tablet, atau laptop lain yang ingin ikut mengedit dokumen dalam jaringan WiFi yang sama.
+- Perangkat ini **TIDAK PERLU** meng-clone repositori, **tidak perlu** menginstal PHP/Node, dan **tidak perlu** menyalakan database MySQL.
+- Mereka cukup membuka browser di perangkat mereka (misalnya Google Chrome di HP) dan langsung **mengetikkan alamat IP lokal** yang tertera pada layar komputer utama (contoh: `http://192.168.1.100:8000`).
+
+---
+
+### Langkah Pengujian:
+
+1. Pada **Main Client**, jalankan aplikasi menggunakan `./start-servers.ps1`.
+2. Buka browser di **Main Client** ke `http://localhost:8000`.
+3. Anda akan melihat kotak informasi di dashboard yang menampilkan IP lokal server Anda, misalnya: **`http://192.168.1.100:8000`**.
+4. Ambil HP atau laptop kedua Anda (**Client Biasa**), pastikan terhubung ke **WiFi yang sama** dengan Main Client, lalu buka alamat IP lokal tersebut (`http://192.168.1.100:8000`) di browser.
+5. Masuk sebagai tamu dengan nama berbeda (misal: "Lynx" di Main Client dan "Hp1 (Guest)" di HP Client Biasa), lalu buka dokumen yang sama.
+6. Anda sekarang dapat mengetik dan melihat perubahan teks, posisi kursor, serta avatar pengguna lain tersinkronisasi secara realtime!
 7. Cobalah kembali ke dashboard, lakukan aksi **Ubah Nama** atau **Hapus** pada salah satu perangkat, dan saksikan daftar dokumen di perangkat lainnya terupdate secara realtime!
