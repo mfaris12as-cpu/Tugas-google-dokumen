@@ -296,12 +296,12 @@ const visibleCursors = computed(() => {
     <div class="min-h-screen bg-slate-50 flex flex-col">
         <!-- Top Editor Navbar -->
         <header class="bg-white shadow-sm border-b border-slate-200 px-4 py-3 sm:px-6">
-            <div class="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between space-y-3 md:space-y-0">
+            <div class="max-w-7xl mx-auto flex flex-col space-y-3 md:flex-row md:items-center md:justify-between md:space-y-0">
                 
-                <div class="flex items-center space-x-3 flex-1">
+                <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5 flex-1 min-w-0">
                     <Link
                         href="/"
-                        class="text-indigo-600 hover:text-indigo-800 font-medium text-sm flex items-center space-x-1"
+                        class="text-indigo-600 hover:text-indigo-800 font-medium text-sm flex items-center space-x-1 shrink-0"
                     >
                         <span>← Dashboard</span>
                     </Link>
@@ -312,11 +312,11 @@ const visibleCursors = computed(() => {
                         @input="onTitleInput"
                         type="text"
                         placeholder="Nama Dokumen"
-                        class="text-lg font-bold text-slate-800 border-b border-transparent hover:border-slate-300 focus:border-indigo-500 focus:outline-none px-1 py-0.5 transition-colors flex-1 max-w-md"
+                        class="text-base sm:text-lg font-bold text-slate-800 border-b border-transparent hover:border-slate-300 focus:border-indigo-500 focus:outline-none px-1 py-0.5 transition-colors flex-1 min-w-[120px] max-w-xs sm:max-w-md"
                     />
 
                     <!-- Saving indicator -->
-                    <span class="text-xs ml-2 select-none">
+                    <span class="text-xs select-none shrink-0">
                         <span v-if="saveStatus === 'saving'" class="text-amber-500 font-medium">⚡ Menyimpan...</span>
                         <span v-else-if="saveStatus === 'saved'" class="text-emerald-500 font-medium">✓ Tersimpan ke DB</span>
                         <span v-else class="text-red-500 font-medium">✗ Gagal menyimpan</span>
@@ -324,7 +324,7 @@ const visibleCursors = computed(() => {
                 </div>
 
                 <!-- Active Collaborators list -->
-                <div class="flex items-center space-x-2">
+                <div class="flex items-center space-x-2 shrink-0 justify-between md:justify-end">
                     <span class="text-xs text-slate-500 mr-2">Sedang mengedit:</span>
                     <div class="flex -space-x-1 overflow-hidden">
                         <div

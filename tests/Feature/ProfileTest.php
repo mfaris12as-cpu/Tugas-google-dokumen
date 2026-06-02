@@ -56,3 +56,40 @@ test('default avatar fallback matches expected stock animal', function () {
     $user2 = User::factory()->create(['id' => 2]); // 2 % 5 = 2 => 'koala'
     expect($user2->avatar_url)->toContain('images/avatars/koala.svg');
 });
+
+test('guest user activity touches updated_at timestamp', function () {
+    $guest = User::factory()->create([
+        'email' => 'guest_abc@collabify.local',
+        'updated_at' => now()->subMinutes(10),
+    ]);
+
+    $this->actingAs($guest)->get(route('home'));
+
+    $guest->refresh();
+    expect($guest->updated_at->gt(now()->subMinutes(1)))->toBeTrue();
+});
+
+test('expired guest users are deleted during request cycle', function () {
+    // Create an expired guest
+    $expiredGuest = User::factory()->create([
+        'email' => 'guest_expired@collabify.local',
+        'updated_at' => now()->subHours(25),
+    ]);
+
+    // Create an active guest
+    $activeGuest = User::factory()->create([
+        'email' => 'guest_active@collabify.local',
+        'updated_at' => now(),
+    ]);
+
+    // Force run the cleanup by simulating requests until it hits the 5% chance
+    for ($i = 0; $i < 100; $i++) {
+        $this->actingAs($activeGuest)->get(route('home'));
+        if (! User::where('id', $expiredGuest->id)->exists()) {
+            break;
+        }
+    }
+
+    expect(User::where('id', $expiredGuest->id)->exists())->toBeFalse();
+    expect(User::where('id', $activeGuest->id)->exists())->toBeTrue();
+});

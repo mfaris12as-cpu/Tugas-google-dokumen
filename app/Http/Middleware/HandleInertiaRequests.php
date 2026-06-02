@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -35,11 +36,28 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $user = $request->user();
+        if ($user) {
+            // Update last active time for guest users (throttled to once every 5 minutes to avoid DB query spam)
+            if (str_ends_with($user->email, '@collabify.local')) {
+                if (! $user->updated_at || $user->updated_at->lt(now()->subMinutes(5))) {
+                    $user->touch();
+                }
+            }
+        }
+
+        // Clean up expired guest accounts (inactive for more than 24 hours) with a 5% chance per request
+        if (rand(1, 100) <= 5) {
+            User::where('email', 'like', '%@collabify.local')
+                ->where('updated_at', '<', now()->subHours(24))
+                ->delete();
+        }
+
         return [
             ...parent::share($request),
             'name' => config('app.name'),
             'auth' => [
-                'user' => $request->user(),
+                'user' => $user,
             ],
             'localIp' => $this->getLocalIp(),
         ];
@@ -68,13 +86,14 @@ class HandleInertiaRequests extends Middleware
             }
         } else {
             @exec('hostname -I', $output);
-            if (!empty($output) && is_array($output)) {
+            if (! empty($output) && is_array($output)) {
                 $ips = explode(' ', trim($output[0]));
                 if (isset($ips[0]) && filter_var($ips[0], FILTER_VALIDATE_IP)) {
                     return $ips[0];
                 }
             }
         }
+
         return $ip;
     }
 }
