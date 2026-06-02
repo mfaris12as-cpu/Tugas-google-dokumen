@@ -38,8 +38,16 @@ Kami telah menyediakan skrip PowerShell untuk mempermudah proses instalasi dan p
 3. Pastikan server database **MySQL** Anda aktif (misalnya melalui Laragon, XAMPP, dsb) pada port default `3306` (username: `root`, tanpa password).
 
 ### Langkah Instalasi
-1. Buka PowerShell di folder project root.
-2. Jalankan skrip setup berikut:
+1. Buka Terminal / PowerShell di komputer Anda, lalu clone repositori ini:
+   ```bash
+   git clone https://github.com/MuslimGunawan/Collabify.git
+   ```
+2. Masuk ke direktori project yang baru saja di-clone:
+   ```bash
+   cd Collabify
+   ```
+3. Pastikan database server MySQL Anda sudah menyala/aktif (misalnya di Laragon atau XAMPP).
+4. Jalankan skrip setup otomatis di PowerShell untuk menyelesaikan konfigurasi secara instan:
    ```powershell
    ./setup.ps1
    ```
