@@ -40,7 +40,7 @@ Kami telah menyediakan skrip PowerShell untuk mempermudah proses instalasi dan p
 ### Langkah Instalasi
 1. Buka Terminal / PowerShell di komputer Anda, lalu clone repositori ini:
    ```bash
-   https://github.com/mfaris12as-cpu/Tugas-google-dokumen.git
+   git clone https://github.com/mfaris12as-cpu/Tugas-google-dokumen.git
    ```
 2. Masuk ke direktori project yang baru saja di-clone:
    ```bash
