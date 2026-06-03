@@ -44,7 +44,7 @@ Kami telah menyediakan skrip PowerShell untuk mempermudah proses instalasi dan p
    ```
 2. Masuk ke direktori project yang baru saja di-clone:
    ```bash
-   cd Collabify
+   cd Tugas-google-dokumen
    ```
 3. Pastikan database server MySQL Anda sudah menyala/aktif (misalnya di Laragon atau XAMPP).
 4. Jalankan skrip setup otomatis di PowerShell untuk menyelesaikan konfigurasi secara instan:
